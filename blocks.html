@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style1.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div class="block">
+        <div class="left">
+            <div id="first"></div>
+            <div class="slider">=</div>
+            <div id="sec"></div>
+        </div>
+        <div class="toggleButton">&larr;</div>
+        <div class="right">
+            <div id="third"></div>
+            <div class="slider">=</div>
+            <div id="forth"></div>
+        </div>
+    </div>
+    <script>
+        "use strict";
+        $(document).ready(function () {
+            let isLeftVisible = true;
+            let isDragging = false;
+            let startY, startHeight, targetElement;
+            let $toggleButton = $('.toggleButton');
+            let $sliders = $('.slider');
+
+            $toggleButton.on('click', function () {
+                if (isLeftVisible) {
+                    $('.left').css('width', '0');
+                    $('.right').css('width', '100vw');
+                    $toggleButton.html('&rarr;'); //стрелка меняется вправо
+                }
+                else {
+                    $('.left').css('width', '30vw');
+                    $('.right').css('width', '70vw');
+                    $toggleButton.html('&larr;'); //стрелка меняется влево
+                }
+                isLeftVisible = !isLeftVisible; //переключение состояния
+            });
+
+            // $('.divider').on('mousedown', function (e) {
+            //     isDragging = true;
+            //     startY = e.clientY;
+            //     startHeight = $(this).prev().height();
+            //     $(document).on('mousemove', dragMove).on('mouseup', dragEnd);
+            // });
+            //события слайдера
+            $sliders.on('mousedown', function (e) {
+                isDragging = true; //начало перетаскивания
+                startY = e.clientY;//вертикальная координата курсора мыши
+                targetElement = $(this).siblings('div').first(); // находит 1Й div обьекта this, соседний со slider 
+                startHeight = targetElement.height(); //сохраняем тут стартовую высоту 
+
+                $(document).on('mousemove', resizeBlocks);
+                $(document).on('mouseup', stopDrag);
+
+            });
+            function resizeBlocks(e) {
+                if (isDragging) {
+                    let offset = e.clientY - startY; // смещение курсора мыши по вертикали
+
+                    const newHeight = Math.max(100, startHeight + offset);
+
+                    if ($(targetElement).closest('.left').length > 0) {//>0 означает, что найден хотя бы один нужный элемент 
+                        $('#first').height(newHeight);
+                        $('#sec').height(`calc(100% - ${newHeight}px - 20px)`); //взаимодействий высот при их изменении 
+                    } else {
+                        $('#third').height(newHeight);
+                        $('#forth').height(`calc(100% - ${newHeight}px - 20px)`);
+                    }
+                }
+            }
+
+            function stopDrag() {
+                if (isDragging) {
+                    isDragging = false; // завершаем перетаскивание
+                    $(document).off('mousemove', resizeBlocks);
+                    $(document).off('mouseup', stopDrag);
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>

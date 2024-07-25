@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aside Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        aside {
+            width: 20%;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .aside_top,
+        .aside_bot {
+            flex: 1;
+        }
+
+        .divider {
+            height: 20px;
+            background-color: gray;
+            cursor: row-resize;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <aside>
+        <div class="aside_top"></div>
+        <div class="divider">
+            <div class="drag">=</div>
+        </div>
+        <div class="aside_bot"></div>
+    </aside>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let isDragging = false;
+            let startY, startHeightTop, startHeightBot;
+            const divider = document.querySelector('.divider');
+
+            divider.addEventListener('mousedown', function (e) {
+                isDragging = true;
+                startY = e.clientY;
+                startHeightTop = document.querySelector('.aside_top').offsetHeight;
+                startHeightBot = document.querySelector('.aside_bot').offsetHeight;
+
+                document.addEventListener('mousemove', resizePanels);
+                document.addEventListener('mouseup', stopDrag);
+            });
+
+            function resizePanels(e) {
+                if (isDragging) {
+                    let offset = e.clientY - startY;
+                    let newHeightTop = startHeightTop + offset;
+                    let newHeightBot = startHeightBot - offset;
+
+                    if (newHeightTop >= 50 && newHeightBot >= 50) {
+                        document.querySelector('.aside_top').style.height = newHeightTop + 'px';
+                        document.querySelector('.aside_bot').style.height = newHeightBot + 'px';
+                    }
+                }
+            }
+        
+            function stopDrag() {
+                isDragging = false;
+                document.removeEventListener('mousemove', resizePanels);
+                document.removeEventListener('mouseup', stopDrag);
+            }
+        });
+
+
+    $('.divider').on('mousedown', function (e) {
+        isDragging = true;
+        startY = e.clientY;
+        startHeight = $(this).prev().height();
+        $(document).on('mousemove', dragMove).on('mouseup', dragEnd);
+    });
+
+    function dragMove(e) {
+        if (isDragging) {
+            const offset = e.clientY - startY;
+            const newHeight = startHeight + offset;
+            if ($(e.target).closest('aside').length > 0) {
+                asideTop.height(newHeight);
+                asideBot.height(`calc(100% - ${newHeight}px - 20px)`);
+            } else {
+                sectionTop.height(newHeight);
+                sectionBot.height(`calc(100% - ${newHeight}px - 20px)`);
+            }
+        }
+    }
+
+   
+
+
+    </script>
+</body>
+
+</html>

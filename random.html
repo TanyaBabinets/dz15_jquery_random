@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery-3.7.0.min.js">
+    </script>
+    <style>
+        .error-message {
+            color: red;
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="formBlock">
+        <h2>Random string generator</h2>
+        <div id="input1">
+            <label for="number">String should be<input type="number" id="number" name="number" placeholder="enter your number"/>characters
+                long</label><br />
+            <div id="number-error" class="error-message"></div><br />
+        </div>
+        <div id="content"> <label> Which characters are allowed to occur in the strings?:</label><br />
+
+            <input type="checkbox" id="numeric" name="s1" value="s1" /> Numeric digits (0-9)<br />
+            <input type="checkbox" id="uppercase" name="s2" value="s2" /> Uppercase letters (A-Z)<br />
+            <input type="checkbox" id="lowercase" name="s3" value="s3" /> Lowercase letters (a-z)<br />
+            <span class="error-message" id="content-error">Make your choice</span><br />
+        </div>
+        <div id="btn"> <button type="button" id="generateBtn" value="generateBtn">Generate</div>
+        <div id="string">
+            <label for="result">Generated String:</label>
+            <input type="text" id="result" name="result" readonly />
+        </div>
+        <script>
+            $(document).ready(function () {
+                const numeric = '0123456789';
+                const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+
+                function generic(length, content) {
+                    let result = '';
+                    for (let i = 0; i < length; i++) {
+                        const randomIndex = Math.floor(Math.random() * content.length);
+                        result += content[randomIndex];
+                    }
+                    return result;
+                }
+                $('#generateBtn').click(function(){
+                    const length = parseInt($('#number').val());
+                    let content = '';
+                    if ($('#numeric').is(':checked')) {
+                        content += numeric;
+                    }
+                    if ($('#uppercase').is(':checked')) {
+                        content += uppercase;
+                    }
+                    if ($('#lowercase').is(':checked')) {
+                        content += lowercase;
+                    }
+                    //делаем проверки на ошибки клиента
+                    if (!length || length <= 0) {
+                        $('#number-error').text("please enter your number");
+                        return;
+                    }
+                    else {
+                        $('#number-error').text('');
+                    }
+                    if (content === '') {
+                        $('#content-error').show();
+                        return;
+                    } else {
+                        $('#content-error').hide();
+                    }
+                    const newString = generic(length, content);
+                    $('#result').val(newString);
+                });
+            });
+        </script>
+</body>
+
+</html>

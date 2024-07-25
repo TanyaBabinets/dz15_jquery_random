@@ -1,0 +1,104 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: space-between;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+
+.block {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    /* flex-direction: column; */
+}
+
+.left,
+.right {
+    display: flex;
+    flex-direction: column;
+    /* width: 100%; */
+    height: 100%;
+}
+
+
+.left {
+    width: 30vw;
+
+}
+
+#first,
+#sec,
+#third,
+#forth {
+    min-height: 100px;
+    flex: none;
+    width: 100%;
+    flex-direction: column;
+
+}
+
+#first {
+    width: 100%;
+    height: 50%;
+    background-color: rgb(127, 201, 192);
+}
+
+#sec {
+    width: 100%;
+    height: 50%;
+    background-color: lightblue;
+}
+
+.right {
+    width: 70vw;
+}
+
+#third,
+#forth {
+    flex: none;
+    width: 100%;
+    flex-direction: column;  
+}
+
+#third {
+    height: 70%;
+    background-color: pink;
+}
+
+#forth {
+    height: 30%;
+    background-color: rgb(233, 155, 181);
+}
+
+.slider {
+    background: grey;
+    width: 100%;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: ns-resize;
+    font-size: 36px;
+}
+
+.toggleButton {
+    cursor: pointer;
+    background-color: gray;
+    text-align: center;
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border 0.3s ease;
+    font-size: 26px;
+    transition: border 0.3s ease;
+}
